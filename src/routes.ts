@@ -8,36 +8,48 @@ routes.get("/", (request, response) => {
     return response.status(200).json({ message: "Hello World!" });
 });
 
-routes.get("/number", (request, response) => {
-    const randomNumber = Math.floor(Math.random() * 100);
-    return response.status(200).json({ randomNumber });
-});
+routes.post("/aluno", (request, response) => {
+  const { nome, CPF, idade, media } = request.body;
 
-routes.get("/fibonacci/:quantidade", (request, response) => {
-  const quantidade = Number(request.params.quantidade);
+  const status = media > 6 ? "Aprovado" : "Reprovado";
 
-  const fibonacci = [0, 1];
-
-  for (let i = 2; i < quantidade; i++) {
-    fibonacci.push(fibonacci[i - 1] + fibonacci[i - 2]);
-  }
-
-  return response.status(200).json({
-    quantidade,
-    fibonacci
+  return response.status(201).json({
+    nome,
+    CPF,
+    idade,
+    status,
   });
 });
 
-routes.get("/fatorial/:numero", (request, response) => {
-    const numero = Number(request.params.numero);
+routes.put("/aluno/:id", (request, response) => {
+  const alunos = [
+    { nome: "João", idade: 20 },
+    { nome: "Maria", idade: 22 },
+    { nome: "José", idade: 25 },
+    { nome: "Ana", idade: 21 },
+  ];
 
-    let resultado = 1;
+  const { id } = request.params;
+  const { nome } = request.body;
 
-    for (let i = 1; i <= numero; i++) {
-        resultado = resultado * i;
-    }
+  const aluno = alunos[+id];
+  aluno.nome = nome;
 
-    return response.status(200).json(resultado);
+  return response.status(200).json(aluno);
 });
+
+routes.delete("/aluno/:id", (request, response) => {
+  const alunos = [
+    { nome: "João", idade: 20 },
+    { nome: "Maria", idade: 22 },
+    { nome: "José", idade: 25 },
+    { nome: "Ana", idade: 21 },
+  ];
+
+  const { id } = request.params;
+  const novalista = alunos.splice(+id, 1);
+
+  return response.status(200).json(alunos);
+});  
 
 export default routes;
