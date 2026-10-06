@@ -30,6 +30,7 @@ model Curso {
   cargaHoraria Int
   descricao    String
   alunos       Aluno[]
+  professorResponsavel String
 }
 
 model Funcionario {
