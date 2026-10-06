@@ -87,6 +87,21 @@ export default {
     } catch (e) {
       return handleErrors(e, response);
     }
-  }
+  },
+
+  delete: async (request: Request, response: Response) => {
+    try {
+      const { id } = request.params;
+
+      const aluno = await prisma.aluno.delete({
+        where: {
+          id: +id,
+        },
+      });
+
+      return response.status(200).json(aluno);
+    } catch (e) {
+      return handleErrors(e, response);
+    }
+  },
 };
- 
