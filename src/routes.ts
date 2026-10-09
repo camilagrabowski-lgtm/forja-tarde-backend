@@ -1,10 +1,12 @@
+
 import { Router } from 'express';
 
-import alunoController from './controllers/aluno';
-import cursoController from './controllers/curso';
-import matriculaController from './controllers/matricula';
-import funcionarioController from './controllers/funcionario';
+import alunoController from "./controllers/aluno";
+import cursoController from "./controllers/curso";
+import matriculaController from "./controllers/matricula";
+import funcionarioController from "./controllers/funcionario";
 import { authentication } from "./middlewares/authentication";
+import { permissions } from "./middlewares/permissions";
 
 const routes = Router();
 
@@ -35,5 +37,11 @@ routes.delete("/matriculas/:id", authentication, matriculaController.delete);
 
 // ROTAS DE FUNCIONÁRIOS
 routes.post("/login", funcionarioController.login);
+
+routes.get("/funcionarios", authentication, permissions, funcionarioController.list);
+routes.get("/funcionarios/:id", authentication, permissions, funcionarioController.getById);
+routes.post("/funcionarios", authentication, permissions, funcionarioController.create);
+routes.put("/funcionarios/:id", authentication, permissions, funcionarioController.update);
+routes.delete("/funcionarios/:id", authentication, permissions, funcionarioController.delete);
 
 export default routes;
