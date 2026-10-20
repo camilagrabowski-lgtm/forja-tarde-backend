@@ -9,15 +9,8 @@ export default {
   list: async (request: Request, response: Response) => {
     try {
       const funcionarios = await prisma.funcionario.findMany({
-        select: {
-          id: true,
-          nome: true,
-          cpf: true,
-          email: true,
-          telefone: true,
-          endereco: true,
-          nascimento: true,
-          cargo: true,
+        omit: {
+          senha: true,
         },
       });
 
@@ -33,15 +26,8 @@ export default {
 
       const funcionario = await prisma.funcionario.findUnique({
         where: { id: +id },
-        select: {
-          id: true,
-          nome: true,
-          cpf: true,
-          email: true,
-          telefone: true,
-          endereco: true,
-          nascimento: true,
-          cargo: true,
+        omit: {
+          senha: true,
         },
       });
 
@@ -70,6 +56,10 @@ export default {
         cargo,
       } = request.body;
 
+      if( !nome || !cpf || !cargo || !senha || !email) {
+        return response.status(400).json("Dados do funcionario incompletos");
+      }
+
       const senhaHash = await bcrypt.hash(senha, 10);
 
       const funcionario = await prisma.funcionario.create({
@@ -83,15 +73,8 @@ export default {
           nascimento: nascimento ? new Date(nascimento) : null,
           cargo,
         },
-        select: {
-          id: true,
-          nome: true,
-          cpf: true,
-          email: true,
-          telefone: true,
-          endereco: true,
-          nascimento: true,
-          cargo: true,
+        omit: {
+          senha: true,
         },
       });
 
@@ -131,15 +114,8 @@ export default {
             : undefined,
           cargo,
         },
-        select: {
-          id: true,
-          nome: true,
-          cpf: true,
-          email: true,
-          telefone: true,
-          endereco: true,
-          nascimento: true,
-          cargo: true,
+        omit: {
+          senha: true,
         },
       });
 
@@ -155,6 +131,9 @@ export default {
 
       await prisma.funcionario.delete({
         where: { id: +id },
+        omit: {
+          senha: true,
+        },
       });
 
       return response.status(200).json({
