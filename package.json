@@ -14,12 +14,13 @@
   "author": "Camila",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsx ./src/index.ts",
-    "dev": "tsx watch --include ./**/* ./src/index.ts",
-    "seed": "tsx ./prisma/seed.ts",
-    "db:migrate": "prisma migrate deploy"
-  },
+  "test": "echo \"Error: no test specified\" && exit 1",
+  "start": "tsx ./src/index.ts",
+  "dev": "tsx watch --include ./**/* ./src/index.ts",
+  "seed": "tsx ./prisma/seed.ts",
+  "db:migrate": "prisma migrate deploy",
+  "build": "tsc"
+},
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.10.0",
     "@prisma/adapter-pg": "^7.10.1",
